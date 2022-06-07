@@ -1,5 +1,6 @@
 FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine AS base
-RUN apk add libwbclient
+RUN apk add libwbclient libunistring libssl1.1 zlib libc6-compat
+# RUN apk add libwbclient
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
 RUN apk add --no-cache git curl
