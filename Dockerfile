@@ -1,5 +1,5 @@
 FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine AS base
-RUN apk add libwbclient libunistring libssl1.1 zlib libc6-compat
+RUN apk add libwbclient libunistring libssl1.1 zlib libc6-compat krb5
 # RUN apk add libwbclient
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
@@ -13,6 +13,6 @@ RUN ./configure --without-manpages --disable-nls
 RUN make install
 
 FROM base AS final
-RUN mkdir -p /usr/local/lib/gssntlmssp  /usr/etc/gss/mech.d
-COPY ./mech.ntlmssp.conf /usr/etc/gss/mech.d/
+RUN mkdir -p /usr/local/lib/gssntlmssp  /etc/gss/mech.d
+COPY ./mech.ntlmssp.conf /etc/gss/mech.d/
 COPY --from=build /usr/local/lib/gssntlmssp/ /usr/local/lib/gssntlmssp/
